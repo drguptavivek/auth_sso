@@ -1,0 +1,29 @@
+version: '3.8'
+
+# Example development override configuration
+# Copy this file to docker-compose.override.yml and adjust as needed
+
+services:
+  postgres:
+    ports:
+      - "5432:5432"  # Expose PostgreSQL port for local development
+    environment:
+      POSTGRES_PASSWORD: dev_password  # Override with simple dev password
+
+  keycloak:
+    ports:
+      - "8080:8080"  # HTTP port for development
+    environment:
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME: "localhost"
+      KC_HTTPS_REQUIRED: "none"
+      KC_DB_PASSWORD: dev_password
+      KC_BOOTSTRAP_ADMIN_PASSWORD: admin
+      JAVA_OPTS: "-Xms256m -Xmx1024m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m"
+    command: start-dev
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 256M
