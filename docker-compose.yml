@@ -1,41 +1,40 @@
 
 services:
   keycloak:
-    image: ${KEYCLOAK_IMAGE:-quay.io/keycloak/keycloak:26.4.4}
-    command: start-dev
+    image: quay.io/keycloak/keycloak:26.4.5
+    command: start
     mem_limit: 2g
-    environment:
-      KC_DB: ${KC_DB:-postgres}
-      KC_DB_URL: ${KC_DB_URL}
-      KC_DB_USERNAME: ${KC_DB_USERNAME}
-      KC_DB_PASSWORD: ${KC_DB_PASSWORD}
-      KC_FRONTEND_URL: ${KC_FRONTEND_URL}
-      KC_HTTP_RELATIVE_PATH: ${KC_HTTP_RELATIVE_PATH:-/}
-      KC_HOSTNAME_STRICT: ${KC_HOSTNAME_STRICT:-false}
-      KC_HOSTNAME_STRICT_HTTPS: ${KC_HOSTNAME_STRICT_HTTPS:-false}
-      KC_HTTPS_REQUIRE_SNI: ${KC_HTTPS_REQUIRE_SNI:-false}
-      KC_BOOTSTRAP_ADMIN_USERNAME: ${KC_BOOTSTRAP_ADMIN_USERNAME}
-      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KC_BOOTSTRAP_ADMIN_PASSWORD}
+    env_file:
+      - .env
     ports:
-      - "${KEYCLOAK_PORT:-127.0.0.1:8080:8080}"
+      - "8080:8080"
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - web
+      - db_net
 
   postgres:
-    image: ${POSTGRES_IMAGE:-postgres:15}
+    image: postgres:17
     mem_limit: 2g
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    env_file:
+      - .env
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/17/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-keycloak}"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - db_net
 
 volumes:
   postgres_data:
+
+networks:
+  web:
+    external: true
+  db_net:
+    external: true
