@@ -126,7 +126,50 @@ networks:
     external: true
 ```
 
-### 3. Nginx Proxy Manager Configuration
+### 3. pgAdmin Configuration (Optional)
+
+**Add to docker-compose.yml**:
+
+```yaml
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    mem_limit: 1g
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - db_net
+    restart: unless-stopped
+```
+
+**Connection Settings**:
+- **URL**: http://127.0.0.1:5050
+- **Email**: admin@admin.com
+- **Password**: admin
+
+**Add PostgreSQL Server in pgAdmin**:
+- **Host**: `postgres` (Docker service name)
+- **Port**: `5432`
+- **Database**: `keycloak`
+- **Username**: `keycloak`
+- **Password**: `password`
+
+**Deploy pgAdmin**:
+```bash
+# Add pgAdmin service to docker-compose.yml
+# Then start the service
+docker-compose up -d pgadmin
+
+# Access pgAdmin web interface
+open http://127.0.0.1:5050
+```
+
+### 4. Nginx Proxy Manager Configuration
 
 **Location**: `../nginx-proxy-manager/data/nginx/proxy_host/3.conf`
 
@@ -213,7 +256,25 @@ docker-compose logs -f keycloak
 # Wait for startup (usually 30-60 seconds)
 ```
 
-### 3. Verify Configuration
+### 3. Deploy pgAdmin (Optional)
+
+```bash
+# Add pgAdmin service to docker-compose.yml first (see section 3 above)
+# Then start pgAdmin service
+docker-compose up -d pgadmin
+
+# Access pgAdmin web interface
+open http://127.0.0.1:5050
+
+# Add PostgreSQL server with connection details:
+# Host: postgres
+# Port: 5432
+# Database: keycloak
+# Username: keycloak
+# Password: password
+```
+
+### 4. Verify Configuration
 
 ```bash
 # Test direct connection to Keycloak
@@ -226,7 +287,7 @@ curl -k -I https://sso.aiims.edu/
 curl -k -I https://sso.aiims.edu/admin/
 ```
 
-### 4. Access Keycloak Admin Console
+### 5. Access Keycloak Admin Console
 
 1. **URL**: `https://sso.aiims.edu/admin/`
 2. **Username**: `admin`
@@ -293,6 +354,8 @@ tail -f ../nginx-proxy-manager/data/logs/proxy-host-3_error.log
 - [ ] Keycloak containers are running
 - [ ] Admin console accessible via HTTPS
 - [ ] No mixed content errors in browser console
+- [ ] pgAdmin service added to docker-compose.yml (if using pgAdmin)
+- [ ] pgAdmin accessible at http://127.0.0.1:5050 (if configured)
 
 ## 🔄 Maintenance
 
