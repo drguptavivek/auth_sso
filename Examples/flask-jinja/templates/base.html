@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}Flask + Keycloak{% endblock %}</title>
+</head>
+<body>
+<header>
+  {% if user %}
+    Logged in as {{ user.name }} ({{ user.email }})
+    | <a href="{{ url_for('dashboard') }}">Dashboard</a>
+    | <a href="{{ url_for('admin_panel') }}">Admin</a>
+    | <a href="{{ url_for('logout') }}">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">Login with SSO</a>
+  {% endif %}
+</header>
+<hr>
+{% block content %}{% endblock %}
+</body>
+</html>

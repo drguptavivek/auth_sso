@@ -7,9 +7,17 @@
 <!-- template: login.ftl -->
 
     <#if section = "header">
+        <div style="display:flex; flex-direction:column; align-items: center;">
+            <img src="${url.resourcesPath}/img/logo.png" alt="Brand Logo" width="120" height="120"/>
+            <div style="font-size: 1.2rem;">
+                &nbsp;
+            </div>
+        </div>
         ${msg("loginAccountTitle")}
+
     <#elseif section = "form">
         <div id="kc-form">
+
           <div id="kc-form-wrapper">
             <#if realm.password>
                 <form id="kc-form-login" class="${properties.kcFormClass!}" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post" novalidate="novalidate">
@@ -35,6 +43,27 @@
                     <input type="hidden" id="id-hidden-input" name="credentialId" <#if auth.selectedCredential?has_content>value="${auth.selectedCredential}"</#if>/>
                     <@buttons.loginButton />
                 </form>
+
+                <br/>
+
+                    <div>
+                    <br/>
+                        <a href="/admin/AIIMS_internal/console/"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            Internal Realm Admin Console
+                        </a>
+                    </div>
+                   <div>
+                   <br/>
+                        <a href="/admin/master/console/"
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            Master Realm Admin Console
+                        </a>
+                    </div>
+
+
             </#if>
             </div>
         </div>
@@ -52,5 +81,6 @@
             </div>
         </#if>
     </#if>
+
 
 </@layout.registrationLayout>

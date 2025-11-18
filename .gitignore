@@ -1,2 +1,7 @@
 .env
 .env.realm
+
+.venv
+__pycache__/
+*.pyc
+instance/

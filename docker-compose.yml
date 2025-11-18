@@ -2,7 +2,8 @@
 services:
   keycloak:
     image: quay.io/keycloak/keycloak:26.4.4
-    command: start
+    command: start --spi-theme--static-max-age=-1 --spi-theme--cache-themes=false --spi-theme--cache-templates=false --spi-theme--welcome-theme=myRealm
+
     mem_limit: 2g
     env_file:
       - .env
