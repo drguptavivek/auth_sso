@@ -1,0 +1,106 @@
+
+## Ensure docker networks exist
+
+```bash
+docker network ls
+
+# Create the "web" network (for sharing between multiple stacks, e.g. with a reverse proxy)
+# docker network create web
+
+# Create the "db_net" network (for DB-only communication)
+# docker network create db_net
+
+```
+
+
+```bash
+cp .env.example .env
+
+```
+ADJUST VALUES
+
+```bash
+docker compose down 
+docker compose up -d
+```
+
+## WAIT for docker to come up
+
+```bash
+docker ps -a
+# Check container exists - auth_sso-keycloak-1
+# If not, edut .env.realm as per container name
+```
+
+## Confoigbuire your reverse proxy
+I tried using Nginx Proxy manager with a custom self signed certificate.
+Adjusts as needed.
+
+
+```ini
+# ------------------------------------------------------------
+# sso.aiims.edu - Keycloak Proxy Configuration
+# ------------------------------------------------------------
+
+map $scheme $hsts_header {
+    https   "max-age=63072000; preload";
+}
+
+server {
+  set $forward_scheme http;          # Internal: HTTP to Keycloak
+  set $server         "host.docker.internal";
+  set $port           8080;           # Keycloak internal port
+
+  listen 80;
+  listen 443 ssl;
+
+  server_name sso.aiims.edu;
+  http2 on;
+
+  # SSL Configuration (managed by NPM)
+  ssl_certificate /data/custom_ssl/npm-1/fullchain.pem;
+  ssl_certificate_key /data/custom_ssl/npm-1/privkey.pem;
+
+  # Force SSL redirect
+  include conf.d/include/force-ssl.conf;
+
+  access_log /data/logs/proxy-host-3_access.log proxy;
+  error_log /data/logs/proxy-host-3_error.log warn;
+
+  # Keycloak-specific proxy headers
+  proxy_set_header X-Forwarded-Host $host;
+  proxy_set_header X-Forwarded-Proto $scheme;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header Host $host;
+
+  # Handle redirects from HTTP to HTTPS
+  proxy_redirect http://$host https://$host;
+  proxy_redirect http://$proxy_host https://$host;
+
+  # WebSocket support for Keycloak
+  proxy_http_version 1.1;
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection "upgrade";
+
+  location / {
+    # Include standard proxy configuration
+    include conf.d/include/proxy.conf;
+  }
+
+  # Custom configurations
+  include /data/nginx/custom/server_proxy[.]conf;
+}
+```
+
+
+### REALM settoings
+
+```bash
+cp .env.realm.example .env.realm
+nano .env.realm
+```
+
+```bash
+  chmod +x ./scripts/bootstrap_realm.sh
+  ./scripts/bootstrap_realm.sh
+ ```

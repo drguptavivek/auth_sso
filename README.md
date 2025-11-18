@@ -173,7 +173,7 @@ open http://127.0.0.1:5050
 
 **Location**: `../nginx-proxy-manager/data/nginx/proxy_host/3.conf`
 
-```nginx
+```ini
 # ------------------------------------------------------------
 # sso.aiims.edu - Keycloak Proxy Configuration
 # ------------------------------------------------------------
