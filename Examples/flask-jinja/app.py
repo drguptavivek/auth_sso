@@ -39,6 +39,7 @@ from flask import (
     jsonify,
 )
 import secrets
+from urllib.parse import urlencode
 from authlib.integrations.flask_client import OAuth
 import requests
 
@@ -234,16 +235,24 @@ def logout():
     """
     Logs the user out of the Flask app AND redirects to Keycloak logout.
     """
+    # Get the ID token from session if available
+    user = session.get("user", {})
+    token_data = user.get("token", {})
+    id_token = token_data.get("id_token")
+
     # Clear local session
     session.clear()
 
-    # Redirect to Keycloak logout
-    # After logout, Keycloak will redirect user back to 'redirect_uri'
+    # Prepare logout parameters
     redirect_uri = url_for("index", _external=True)
-    logout_url = (
-        f"{KEYCLOAK_ISSUER}/protocol/openid-connect/logout"
-        f"?redirect_uri={redirect_uri}"
-    )
+    logout_params = {"redirect_uri": redirect_uri}
+
+    # Add id_token_hint if available for better logout experience
+    if id_token:
+        logout_params["id_token_hint"] = id_token
+
+    # Build properly encoded logout URL
+    logout_url = f"{KEYCLOAK_ISSUER}/protocol/openid-connect/logout?{urlencode(logout_params)}"
 
     return redirect(logout_url)
 
