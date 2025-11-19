@@ -38,6 +38,7 @@ from flask import (
     request,
     jsonify,
 )
+import secrets
 from authlib.integrations.flask_client import OAuth
 import requests
 
@@ -172,13 +173,17 @@ def login():
     """
     Redirects the user to Keycloak for authentication.
     """
+    # Generate and store nonce for security
+    nonce = secrets.token_urlsafe(16)
+    session['oauth_nonce'] = nonce
+
     redirect_uri = url_for("auth_callback", _external=True)
     # Preserve 'next' manually via query parameter
     next_url = request.args.get("next")
     if next_url:
         redirect_uri = f"{redirect_uri}?next={next_url}"
 
-    return keycloak.authorize_redirect(redirect_uri)
+    return keycloak.authorize_redirect(redirect_uri, nonce=nonce)
 
 
 @app.route("/auth/callback")
@@ -193,8 +198,11 @@ def auth_callback():
         # You can add logging here
         return f"Error during Keycloak auth: {exc}", 400
 
-    # Parse ID token (standard OIDC claims)
-    userinfo = keycloak.parse_id_token(token)
+    # Get the nonce from session for ID token validation
+    nonce = session.pop('oauth_nonce', None)
+
+    # Parse ID token (standard OIDC claims) with nonce
+    userinfo = keycloak.parse_id_token(token, nonce)
 
     # Extract roles from realm_access if present
     realm_access = userinfo.get("realm_access", {})
