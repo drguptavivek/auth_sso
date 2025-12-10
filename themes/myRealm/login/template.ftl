@@ -135,8 +135,9 @@
 <div class="${properties.kcLogin!}">
   <div class="${properties.kcLoginContainer!}">
     <header id="kc-header" class="pf-v5-c-login__header">
-      <div id="kc-header-wrapper"
-              class="pf-v5-c-brand">${kcSanitize(msg("loginTitleHtml",(realm.displayNameHtml!'')))?no_esc}</div>
+      <div id="kc-header-wrapper" class="pf-v5-c-brand">
+        <img src="${url.resourcesPath}/img/logo.png" alt="${realm.displayNameHtml!''}" width="240" height="120"/>
+      </div>
     </header>
     <main class="${properties.kcLoginMain!}">
       <div class="${properties.kcLoginMainHeader!}">
