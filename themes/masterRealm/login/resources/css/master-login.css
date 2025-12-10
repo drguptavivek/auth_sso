@@ -1,0 +1,118 @@
+:root {
+    --master-primary: #0f5ae5;
+    --master-accent: #40c9ff;
+    --master-surface: rgba(14, 20, 39, 0.82);
+    --master-blur: 12px;
+    --master-border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.login-pf body {
+    min-height: 100vh;
+    background: radial-gradient(circle at 20% 20%, rgba(64, 201, 255, 0.22), transparent 30%),
+                radial-gradient(circle at 80% 10%, rgba(15, 90, 229, 0.24), transparent 28%),
+                radial-gradient(circle at 20% 80%, rgba(64, 201, 255, 0.18), transparent 30%),
+                linear-gradient(135deg, #0b1a36 0%, #0b1022 60%, #0b0f1c 100%);
+    background-attachment: fixed;
+    color: #e7ecf5;
+}
+
+.pf-v5-c-login__container {
+    align-items: center;
+    grid-template-columns: 36rem;
+    padding: var(--pf-v5-global--spacer--xl) var(--pf-v5-global--spacer--lg);
+}
+
+.pf-v5-c-login__main {
+    background-color: var(--master-surface);
+    backdrop-filter: blur(var(--master-blur));
+    -webkit-backdrop-filter: blur(var(--master-blur));
+    border: var(--master-border);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+}
+
+.pf-v5-c-login__main-header {
+    border-top: 4px solid var(--master-primary);
+    padding-top: var(--pf-v5-global--spacer--lg);
+}
+
+#kc-header-wrapper {
+    color: #f2f6ff;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.kc-logo-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    background: none !important;
+    padding: var(--pf-v5-global--spacer--md) 0;
+}
+
+.kc-logo-text span {
+    display: none;
+}
+
+.kc-logo-text::after {
+    content: "MASTER REALM";
+    color: #f2f6ff;
+    font-size: 1.1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.pf-v5-c-title.pf-m-3xl {
+    color: #f2f6ff;
+}
+
+.pf-v5-c-login__main-footer {
+    border-top: var(--master-border);
+    background: linear-gradient(90deg, rgba(64, 201, 255, 0.12), rgba(15, 90, 229, 0.14));
+}
+
+.pf-v5-c-button.pf-m-primary {
+    background: linear-gradient(135deg, var(--master-primary), var(--master-accent));
+    border: none;
+    color: #0b1022;
+    box-shadow: 0 8px 20px rgba(15, 90, 229, 0.35);
+}
+
+.pf-v5-c-button.pf-m-secondary {
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #e7ecf5;
+}
+
+.pf-v5-c-form-control {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #f2f6ff;
+}
+
+.pf-v5-c-helper-text__item-text {
+    color: #c4cce0;
+}
+
+.kc-login-tooltip .kc-tooltip-text {
+    background-color: #0b1a36;
+    border: 1px solid rgba(64, 201, 255, 0.35);
+}
+
+.kc-home-link-wrap {
+    text-align: center;
+    margin-top: var(--pf-v5-global--spacer--md);
+}
+
+.kc-home-link {
+    color: #cde3ff;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+}
+
+.kc-home-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
