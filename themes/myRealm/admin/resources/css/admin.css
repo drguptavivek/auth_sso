@@ -1,10 +1,72 @@
+:root {
+    /* Brand palette */
+    --myrealm-primary: #011323;
+    --myrealm-primary-dark: #0a3864;
+    --myrealm-primary-light: #e6f0fa;
+    --myrealm-accent: #f4b400;
+
+    /* Override PatternFly globals */
+    --pf-v5-global--palette--blue-50: var(--myrealm-primary-light);
+    --pf-v5-global--primary-color--100: var(--myrealm-primary);
+    --pf-v5-global--primary-color--200: var(--myrealm-primary-dark);
+    --pf-v5-global--link--Color: var(--myrealm-primary);
+    --pf-v5-global--link--Color--hover: var(--myrealm-primary-dark);
+    --pf-v5-global--link--Color--visited: var(--myrealm-primary);
+    --pf-v5-global--palette--gold-400: var(--myrealm-accent);
+    --pf-v5-global--BackgroundColor: var(--myrealm-primary-dark);
+    --pf-v5-c-page__sidebar--BackgroundColor: var(--myrealm-primary-dark);
+}
+
+/* Masthead brand logo */
+.pf-v5-c-masthead__brand {
+    background-image: url('../img/logo.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    background-color: #e2e2e2;
+    min-height: 48px;
+    min-width: 220px;
+    display: inline-flex;
+    align-items: center;
+    padding-left: 1rem;
+}
+
 .pf-v5-c-masthead__brand .pf-v5-c-brand img {
     content: url('../img/logo.png');
     height: 48px;
     width: auto;
 }
 
-/* Adjust brand area spacing to fit the larger logo */
-.pf-v5-c-masthead__brand .pf-v5-c-brand {
-    min-width: 180px;
+/* Accent the masthead and primary buttons */
+.pf-v5-c-masthead {
+    border-bottom: 3px solid var(--myrealm-primary);
+    background-color: var(--myrealm-primary);
+    color: #fff;
+}
+
+.pf-v5-c-masthead .pf-v5-c-toolbar {
+    background-color: var(--myrealm-primary);
+    color: #fff;
+}
+
+.pf-v5-c-button.pf-m-primary {
+    --pf-v5-c-button--m-primary--Color: #fff;
+    --pf-v5-c-button--m-primary--BackgroundColor: var(--myrealm-primary);
+    --pf-v5-c-button--m-primary--hover--BackgroundColor: var(--myrealm-primary-dark);
+    --pf-v5-c-button--m-primary--active--BackgroundColor: var(--myrealm-primary-dark);
+}
+
+/* Card highlights */
+.pf-v5-c-card {
+    border-top: 4px solid var(--myrealm-primary);
+}
+
+/* Hide the built-in Keycloak logo/SVG so our background shows */
+.pf-v5-c-masthead__brand img,
+.pf-v5-c-masthead__brand svg,
+.pf-v5-c-masthead__brand .pf-v5-c-brand img,
+.pf-v5-c-masthead__brand .pf-v5-c-brand svg {
+    opacity: 0;
+    width: 0 !important;
+    height: 0 !important;
 }
