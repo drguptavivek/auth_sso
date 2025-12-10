@@ -1,6 +1,6 @@
 :root {
     --keycloak-logo-url: url('../img/logo.png');
-    --keycloak-bg-logo-url: url("../img/keycloak-bg-darken.svg");
+    --keycloak-bg-logo-url: url("../img/Backdrop.jpg");
     --keycloak-logo-height: 63px;
     --keycloak-logo-width: 300px;
     --keycloak-card-top-color: var(--pf-v5-global--palette--blue-400);

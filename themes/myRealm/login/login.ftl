@@ -8,7 +8,7 @@
 
     <#if section = "header">
         <div style="display:flex; flex-direction:column; align-items: center;">
-            <img src="${url.resourcesPath}/img/logo.png" alt="Brand Logo" width="120" height="120"/>
+            <img src="${url.resourcesPath}/img/logo.png" alt="Brand Logo" width="360" height="240"/>
             <div style="font-size: 1.2rem;">
                 &nbsp;
             </div>

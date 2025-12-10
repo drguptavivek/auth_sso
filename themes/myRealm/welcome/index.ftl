@@ -7,6 +7,7 @@
           content="0; url=${baseUrl}realms/AIIMS_internal/account/#/personal-info" />
 
     <meta name="robots" content="noindex,nofollow" />
+    <link rel="icon" href="${baseUrl}realms/AIIMS_internal/login-resources/img/favicon.ico" />
 
     <script>
       window.location.href =
