@@ -1,0 +1,10 @@
+.pf-v5-c-masthead__brand .pf-v5-c-brand img {
+    content: url('../img/logo.png');
+    height: 48px;
+    width: auto;
+}
+
+/* Adjust brand area spacing to fit the larger logo */
+.pf-v5-c-masthead__brand .pf-v5-c-brand {
+    min-width: 180px;
+}
